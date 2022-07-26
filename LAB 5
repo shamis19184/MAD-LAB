@@ -1,0 +1,121 @@
+JAVA
+
+package com.example.counter184;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    int count = 0;
+    Button start;
+    Button stop;
+    Button reset;
+
+    TextView textView;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        start = (Button) findViewById(R.id.start);
+        stop = (Button) findViewById(R.id.stop);
+        reset = (Button) findViewById(R.id.reset);
+        textView =(TextView) findViewById(R.id.counter);
+        Handler handler;
+        handler = new Handler();
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        count++;
+                        handler.postDelayed(this, 1000);
+                        textView.setText(Integer.toString(count));
+
+                    }
+                }, 1000);
+
+
+            }
+        });
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handler.removeMessages(0);
+            }
+        });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count=0;
+                handler.removeMessages(0);
+                textView.setText(Integer.toString(count));
+            }
+        });
+    }
+}
+
+XML 
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/counter"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="25sp"
+        android:layout_marginTop="250dp"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:text="Start Counter">
+
+    </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:layout_marginRight="20dp">
+
+        </Button>
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop">
+
+        </Button>
+    </LinearLayout>
+    <Button
+        android:id="@+id/reset"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        >
+
+    </Button>
+
+
+</LinearLayout>
