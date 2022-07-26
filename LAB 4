@@ -1,0 +1,94 @@
+JAVA
+
+package com.example.wallpaper184;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.WallpaperManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+
+import java.io.IOException;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    Button wallbtn;
+    boolean running=false;
+    int[] ia=new int[]{R.drawable.image1,R.drawable.image2,R.drawable.image3};
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        wallbtn=(Button) findViewById(R.id.wallbtn);
+
+        wallbtn.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(!running)
+        {
+            new Timer().schedule(new MyTimer(),0,3000);
+            running=true;
+        }
+    }
+
+    private class MyTimer extends TimerTask {
+        @Override
+        public void run() {
+            try {
+                WallpaperManager walllpaperManager=WallpaperManager.getInstance(getBaseContext());
+                Random random=new Random();
+                //walllpaperManager.setBitmap(BitmapFactory.decodeResource(getResources().ia[random.nextInt(5)]));
+                int randomInt=random.nextInt(5);
+                Bitmap bitmap=BitmapFactory.decodeResource(getResources(),ia[randomInt]);
+                walllpaperManager.setBitmap(bitmap);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+}
+
+
+XML
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/changing_wallpaper_application"
+      />
+
+    <Button
+        android:id="@+id/wallbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="146dp"
+        android:layout_marginBottom="411dp"
+        android:text="@string/click_here"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview" />
+</LinearLayout>
